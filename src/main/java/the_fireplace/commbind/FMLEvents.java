@@ -1,7 +1,6 @@
 package the_fireplace.commbind;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -41,11 +40,8 @@ public class FMLEvents {
 
     public void command(String command){
         if(Minecraft.getMinecraft() != null)
-            if(Minecraft.getMinecraft().inGameHasFocus){
-                Minecraft.getMinecraft().displayGuiScreen(new GuiChat());
-                Minecraft.getMinecraft().currentScreen.sendChatMessage("/"+command);
-                Minecraft.getMinecraft().displayGuiScreen(null);
-            }
+            if(Minecraft.getMinecraft().inGameHasFocus)
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/"+command);
     }
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
