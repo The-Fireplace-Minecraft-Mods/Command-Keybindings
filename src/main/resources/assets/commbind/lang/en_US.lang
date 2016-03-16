@@ -1,0 +1,8 @@
+comm1=Command One
+comm1.tooltip=Command One(Uses Command Keybind One).
+comm2=Command Two
+comm2.tooltip=Command Two(Uses Command Keybind Two).
+comm.tooltip=Don't include the / in front of the command.
+key.commbind.category=Command Keybinds
+key.commbind1.desc=Command Key One
+key.commbind2.desc=Command Key Two

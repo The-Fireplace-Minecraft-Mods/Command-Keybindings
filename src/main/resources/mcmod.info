@@ -1,0 +1,18 @@
+[
+{
+  "modid": "commbind",
+  "name": "Command Keybindings",
+  "description": "Allows you to bind two commands to keys",
+  "version": "4.0.1.BUILDNUMBER",
+  "mcversion": "1.8.9",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["The_Fireplace"],
+  "credits": "The_Fireplace for authoring",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": [],
+  "requiredMods": [],
+  "useDependencyInformation": true
+}
+]
