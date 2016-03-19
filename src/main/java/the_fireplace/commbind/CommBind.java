@@ -1,6 +1,6 @@
 package the_fireplace.commbind;
 
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -39,13 +39,13 @@ public class CommBind {
             VERSION = event.getModMetadata().version;
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
-        COMMAND_ONE = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMAND_ONE_NAME, ConfigValues.COMMAND_ONE_DEFAULT, StatCollector.translateToLocal(ConfigValues.COMMAND_ONE_NAME+".tooltip"));
-        COMMAND_TWO = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMAND_TWO_NAME, ConfigValues.COMMAND_TWO_DEFAULT, StatCollector.translateToLocal(ConfigValues.COMMAND_TWO_NAME+".tooltip"));
+        COMMAND_ONE = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMAND_ONE_NAME, ConfigValues.COMMAND_ONE_DEFAULT, I18n.translateToLocal(ConfigValues.COMMAND_ONE_NAME+".tooltip"));
+        COMMAND_TWO = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMAND_TWO_NAME, ConfigValues.COMMAND_TWO_DEFAULT, I18n.translateToLocal(ConfigValues.COMMAND_TWO_NAME+".tooltip"));
         syncConfig();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
-        MinecraftForge.EVENT_BUS.register(new FMLEvents());
+        MinecraftForge.EVENT_BUS.register(new ClientEvents());
     }
 }

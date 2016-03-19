@@ -14,13 +14,13 @@ import the_fireplace.commbind.config.ConfigValues;
 /**
  * @author The_Fireplace
  */
-public class FMLEvents {
+public class ClientEvents {
     public static final int COMMONE = 0;
     public static final int COMMTWO = 1;
     private static final String[] desc = {"key.commbind1.desc", "key.commbind2.desc"};
     private static final int[] keyValues = {Keyboard.KEY_F, Keyboard.KEY_G};
     private final KeyBinding[] keys;
-    public FMLEvents(){
+    public ClientEvents(){
         keys = new KeyBinding[desc.length];
         for(int i = 0; i < desc.length; ++i){
             keys[i] = new KeyBinding(desc[i], keyValues[i], "key.commbind.category");
