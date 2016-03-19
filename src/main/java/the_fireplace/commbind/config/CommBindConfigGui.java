@@ -15,8 +15,8 @@ import the_fireplace.commbind.CommBind;
 public class CommBindConfigGui extends GuiConfig {
 
     public CommBindConfigGui(GuiScreen parentScreen) {
-        super(parentScreen, new ConfigElement(CommBind.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), CommBind.MODID, false,
-                false, I18n.translateToLocal("comm.tooltip"));
+        super(parentScreen, new ConfigElement(CommBind.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), CommBind.MODID, true,
+                true, I18n.translateToLocal("comm.tooltip"));
     }
 
 }

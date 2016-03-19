@@ -14,18 +14,20 @@ import the_fireplace.commbind.config.ConfigValues;
  */
 @Mod(modid=CommBind.MODID, name=CommBind.MODNAME, clientSideOnly=true, guiFactory="the_fireplace.commbind.config.CommBindGuiFactory")
 public class CommBind {
-    public static final String MODID="commbind";
+    public static final String MODID="commandkeybindings";
     public static final String MODNAME="Command Keybindings";
     public static String VERSION;
     public static final String curseCode = "242907-command-keybindings";
     public static Configuration config;
 
-    public static Property COMMAND_ONE;
-    public static Property COMMAND_TWO;
+    public static KeyHandler keyHandler;
+
+    public static Property COMMANDS;
+    public static Property BINDINGS;
 
     public static void syncConfig(){
-        ConfigValues.COMMAND_ONE = COMMAND_ONE.getString();
-        ConfigValues.COMMAND_TWO = COMMAND_TWO.getString();
+        ConfigValues.COMMANDS = COMMANDS.getStringList();
+        ConfigValues.BINDINGSTORAGE = BINDINGS.getIntList();
         if(config.hasChanged())
             config.save();
     }
@@ -39,13 +41,15 @@ public class CommBind {
             VERSION = event.getModMetadata().version;
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
-        COMMAND_ONE = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMAND_ONE_NAME, ConfigValues.COMMAND_ONE_DEFAULT, I18n.translateToLocal(ConfigValues.COMMAND_ONE_NAME+".tooltip"));
-        COMMAND_TWO = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMAND_TWO_NAME, ConfigValues.COMMAND_TWO_DEFAULT, I18n.translateToLocal(ConfigValues.COMMAND_TWO_NAME+".tooltip"));
+        COMMANDS = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMANDS_NAME, ConfigValues.COMMANDS_DEFAULT, I18n.translateToLocal(ConfigValues.COMMANDS_NAME+".tooltip"));
+        BINDINGS = config.get("hidden", ConfigValues.BINDINGSTORAGE_NAME, ConfigValues.BINDINGSTORAGE_DEFAULT);
         syncConfig();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
+        keyHandler = new KeyHandler();
         MinecraftForge.EVENT_BUS.register(new ClientEvents());
+        MinecraftForge.EVENT_BUS.register(keyHandler);
     }
 }
