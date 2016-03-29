@@ -3,7 +3,7 @@
   "modid": "commandkeybindings",
   "name": "Command Keybindings",
   "description": "Allows you to bind commands to keys",
-  "version": "5.0.0.BUILDNUMBER",
+  "version": "5.0.1.BUILDNUMBER",
   "mcversion": "1.9",
   "url": "http://mods.curse.com/mc-mods/minecraft/242907-command-keybindings",
   "updateUrl": "http://mods.curse.com/mc-mods/minecraft/242907-command-keybindings",
@@ -12,7 +12,7 @@
   "logoFile": "",
   "screenshots": [],
   "dependencies": [],
-  "requiredMods": [],
+  "requiredMods": ["Forge@[12.16.0.1805,)"],
   "useDependencyInformation": true
 }
 ]

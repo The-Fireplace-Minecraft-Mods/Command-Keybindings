@@ -40,14 +40,14 @@ import java.util.Set;
  * Now uses Curse to find out the latest version. File name must be "HostMODNAME(nospaces)-w.x.y.z.jar" or it will probably crash.
  *  @author The_Fireplace
  */
-@Mod(modid=VersionChecker.MODID, name=VersionChecker.MODNAME, version=VersionChecker.VERSION, guiFactory = "the_fireplace."+VersionChecker.HostMODID+".VersionChecker$VCGui")
+@Mod(modid=VersionChecker.MODID, name=VersionChecker.MODNAME, version=VersionChecker.VERSION, guiFactory = "the_fireplace.commbind.VersionChecker$VCGui")
 public class VersionChecker {
     static final String HostMODID=CommBind.MODID;
     private static final String HostMODNAME=CommBind.MODNAME;
     private static String HostVERSION;
     static final String MODID=HostMODID+"vc";
     static final String MODNAME=HostMODNAME+" Version Checker";
-    static final String VERSION="2.0";
+    static final String VERSION="2.1-fork";
     private String curseCode, latest="0.0.0.0";
 
     private static Configuration config;
@@ -159,7 +159,7 @@ public class VersionChecker {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void configChanged(ConfigChangedEvent.OnConfigChangedEvent event){
-        if(event.modID.equals(MODID))
+        if(event.getModID().equals(MODID))
             syncConfig();
     }
 

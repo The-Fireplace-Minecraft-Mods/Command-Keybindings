@@ -38,7 +38,7 @@ group= "the_fireplace.commbind"
 archivesBaseName = "CommandKeybindings"
 
 minecraft {
-    version = "1.9-12.16.0.1767-1.9"
+    version = "1.9-12.16.0.1811-1.9"
     runDir = "run"
     mappings = "snapshot_20160312"
 }

@@ -11,14 +11,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class ClientEvents {
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if(eventArgs.modID.equals(CommBind.MODID)) {
+        if(eventArgs.getModID().equals(CommBind.MODID)) {
             CommBind.syncConfig();
             CommBind.keyHandler.setNeedsRestart();
         }
     }
     @SubscribeEvent
     public void guiScreenEvent(GuiScreenEvent event){
-        if(event.gui instanceof GuiOptions)
+        if(event.getGui() instanceof GuiOptions)
             CommBind.keyHandler.saveBindings();
     }
 }
