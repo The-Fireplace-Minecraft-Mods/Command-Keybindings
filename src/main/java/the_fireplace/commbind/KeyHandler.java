@@ -20,6 +20,7 @@ public class KeyHandler {
     private static final String desc = I18n.translateToLocal("key.comm");
     private KeyBinding[] keys;
     private boolean needsRestart;
+    public byte keyTimer = 0;
     public KeyHandler(){
         keys = new KeyBinding[ConfigValues.COMMANDS.length];
         for(int i = 0; i < ConfigValues.COMMANDS.length; ++i){
@@ -34,6 +35,7 @@ public class KeyHandler {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event){
+        if(keyTimer <= 0)
         for(int i=0;i<ConfigValues.COMMANDS.length;++i){
             if(i < keys.length) {
                 if (keys[i].isPressed())
@@ -49,8 +51,10 @@ public class KeyHandler {
 
     public void command(String command){
         if(Minecraft.getMinecraft() != null)
-            if(Minecraft.getMinecraft().inGameHasFocus)
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/"+command);
+            if(Minecraft.getMinecraft().inGameHasFocus) {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + command);
+                this.keyTimer = 127;
+            }
     }
 
     public void setNeedsRestart(){

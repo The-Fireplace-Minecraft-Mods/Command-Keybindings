@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiOptions;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 /**
  * @author The_Fireplace
@@ -20,5 +21,10 @@ public class ClientEvents {
     public void guiScreenEvent(GuiScreenEvent event){
         if(event.getGui() instanceof GuiOptions)
             CommBind.keyHandler.saveBindings();
+    }
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event){
+        if(CommBind.keyHandler.keyTimer > 0)
+            CommBind.keyHandler.keyTimer--;
     }
 }
