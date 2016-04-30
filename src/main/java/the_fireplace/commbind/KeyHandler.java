@@ -20,9 +20,11 @@ public class KeyHandler {
     private static final String desc = I18n.translateToLocal("key.comm");
     private KeyBinding[] keys;
     private boolean needsRestart;
-    public byte keyTimer = 0;
+    byte[] keyTimer;
+    public boolean flag;
     public KeyHandler(){
         keys = new KeyBinding[ConfigValues.COMMANDS.length];
+        keyTimer = new byte[keys.length];
         for(int i = 0; i < ConfigValues.COMMANDS.length; ++i){
             while(ConfigValues.BINDINGSTORAGE.length<ConfigValues.COMMANDS.length){
                 ConfigValues.BINDINGSTORAGE = ArrayUtils.add(ConfigValues.BINDINGSTORAGE, Keyboard.KEY_NONE);
@@ -31,20 +33,19 @@ public class KeyHandler {
             ClientRegistry.registerKeyBinding(keys[i]);
         }
         needsRestart=false;
+        flag=false;
     }
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event){
-        if(keyTimer <= 0)
         for(int i=0;i<ConfigValues.COMMANDS.length;++i){
-            if(i < keys.length) {
+            if(i < keys.length && i < keyTimer.length) {
+                if(keyTimer[i] <= 0 || flag)
                 if (keys[i].isPressed())
                     if (!needsRestart)
                         command(ConfigValues.COMMANDS[i]);
                     else
                         Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(I18n.translateToLocal("commbind.restart")));
-            }else{
-                Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(I18n.translateToLocal("commbind.restart")));
             }
         }
     }
@@ -53,7 +54,7 @@ public class KeyHandler {
         if(Minecraft.getMinecraft() != null)
             if(Minecraft.getMinecraft().inGameHasFocus) {
                 Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + command);
-                this.keyTimer = 127;
+                this.keyTimer[ArrayUtils.indexOf(ConfigValues.COMMANDS, command)] = 80;
             }
     }
 

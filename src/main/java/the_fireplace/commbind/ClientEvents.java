@@ -24,7 +24,8 @@ public class ClientEvents {
     }
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event){
-        if(CommBind.keyHandler.keyTimer > 0)
-            CommBind.keyHandler.keyTimer--;
+        for(int i=0;i<CommBind.keyHandler.keyTimer.length;i++)
+        if(CommBind.keyHandler.keyTimer[i] > 0)
+            CommBind.keyHandler.keyTimer[i]--;
     }
 }
