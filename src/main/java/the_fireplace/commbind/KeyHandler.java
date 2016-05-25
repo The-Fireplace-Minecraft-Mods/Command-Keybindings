@@ -3,7 +3,7 @@ package the_fireplace.commbind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -17,7 +17,7 @@ import the_fireplace.commbind.config.ConfigValues;
  * @author The_Fireplace
  */
 public class KeyHandler {
-    private static final String desc = I18n.translateToLocal("key.comm");
+    private static final String desc = I18n.format("key.comm");
     private KeyBinding[] keys;
     private boolean needsRestart;
     byte[] keyTimer;
@@ -45,7 +45,7 @@ public class KeyHandler {
                     if (!needsRestart)
                         command(ConfigValues.COMMANDS[i]);
                     else
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(I18n.translateToLocal("commbind.restart")));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(I18n.format("commbind.restart")));
             }
         }
     }
