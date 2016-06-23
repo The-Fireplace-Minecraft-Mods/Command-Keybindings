@@ -51,11 +51,10 @@ public class KeyHandler {
     }
 
     public void command(String command){
-        if(Minecraft.getMinecraft() != null)
-            if(Minecraft.getMinecraft().inGameHasFocus) {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + command);
-                this.keyTimer[ArrayUtils.indexOf(ConfigValues.COMMANDS, command)] = 80;
-            }
+        if(Minecraft.getMinecraft().inGameHasFocus) {
+            Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + command);
+            this.keyTimer[ArrayUtils.indexOf(ConfigValues.COMMANDS, command)] = 20;
+        }
     }
 
     public void setNeedsRestart(){
