@@ -1,9 +1,9 @@
 package the_fireplace.commbind;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -17,7 +17,7 @@ import the_fireplace.commbind.config.ConfigValues;
  * @author The_Fireplace
  */
 public class KeyHandler {
-    private static final String desc = I18n.format("key.comm");
+    private static final String desc = "key.comm";
     private KeyBinding[] keys;
     private boolean needsRestart;
     byte[] keyTimer;
@@ -29,7 +29,7 @@ public class KeyHandler {
             while(ConfigValues.BINDINGSTORAGE.length<ConfigValues.COMMANDS.length){
                 ConfigValues.BINDINGSTORAGE = ArrayUtils.add(ConfigValues.BINDINGSTORAGE, Keyboard.KEY_NONE);
             }
-            keys[i] = new KeyBinding(String.format(desc, ConfigValues.COMMANDS[i]), ConfigValues.BINDINGSTORAGE[i], "key.commbind.category");
+            keys[i] = new KeyBinding(I18n.format(desc, ConfigValues.COMMANDS[i]), ConfigValues.BINDINGSTORAGE[i], "key.commbind.category");
             ClientRegistry.registerKeyBinding(keys[i]);
         }
         needsRestart=false;
@@ -45,7 +45,7 @@ public class KeyHandler {
                     if (!needsRestart)
                         command(ConfigValues.COMMANDS[i]);
                     else
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(I18n.format("commbind.restart")));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentTranslation("commbind.restart"));
             }
         }
     }
