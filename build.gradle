@@ -50,7 +50,7 @@ modsIO {
 		artifact = new File(jar.destinationDir, archivesBaseName+"-"+version+".jar")
 		modid = "1218"
 		minecraft = "1.10.2"
-		changelog = file('changelog.txt').text
+		try{changelog = file('changelog.txt').text}catch(Exception e){changelog=""}
 		tag = ""
 		current = true
     }
