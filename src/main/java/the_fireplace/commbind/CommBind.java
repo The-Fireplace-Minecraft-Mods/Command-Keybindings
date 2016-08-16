@@ -22,10 +22,12 @@ public class CommBind {
 
     public static Property COMMANDS;
     public static Property BINDINGS;
+    public static Property MODIFIERS;
 
     public static void syncConfig(){
         ConfigValues.COMMANDS = COMMANDS.getStringList();
         ConfigValues.BINDINGSTORAGE = BINDINGS.getIntList();
+        ConfigValues.MODIFIERS = MODIFIERS.getIntList();
         if(config.hasChanged())
             config.save();
     }
@@ -36,6 +38,7 @@ public class CommBind {
         config.load();
         COMMANDS = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.COMMANDS_NAME, ConfigValues.COMMANDS_DEFAULT, I18n.format(ConfigValues.COMMANDS_NAME+".tooltip"));
         BINDINGS = config.get("hidden", ConfigValues.BINDINGSTORAGE_NAME, ConfigValues.BINDINGSTORAGE_DEFAULT);
+        MODIFIERS = config.get("hidden", ConfigValues.MODIFIERS_NAME, ConfigValues.MODIFIERS_DEFAULT);
         syncConfig();
     }
 

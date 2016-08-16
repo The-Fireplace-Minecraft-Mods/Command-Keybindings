@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -12,6 +13,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import the_fireplace.commbind.config.ConfigValues;
+
+import static the_fireplace.commbind.config.ConfigValues.BINDINGSTORAGE;
+import static the_fireplace.commbind.config.ConfigValues.MODIFIERS;
 
 /**
  * @author The_Fireplace
@@ -26,10 +30,14 @@ public class KeyHandler {
         keys = new KeyBinding[ConfigValues.COMMANDS.length];
         keyTimer = new byte[keys.length];
         for(int i = 0; i < ConfigValues.COMMANDS.length; ++i){
-            while(ConfigValues.BINDINGSTORAGE.length<ConfigValues.COMMANDS.length){
-                ConfigValues.BINDINGSTORAGE = ArrayUtils.add(ConfigValues.BINDINGSTORAGE, Keyboard.KEY_NONE);
+            while(BINDINGSTORAGE.length<ConfigValues.COMMANDS.length){
+                BINDINGSTORAGE = ArrayUtils.add(BINDINGSTORAGE, Keyboard.KEY_NONE);
             }
-            keys[i] = new KeyBinding(I18n.format(desc, ConfigValues.COMMANDS[i]), ConfigValues.BINDINGSTORAGE[i], "key.commbind.category");
+            while(MODIFIERS.length<ConfigValues.COMMANDS.length){
+                MODIFIERS = ArrayUtils.add(MODIFIERS, KeyModifier.NONE.ordinal());
+            }
+            keys[i] = new KeyBinding(I18n.format(desc, ConfigValues.COMMANDS[i]), BINDINGSTORAGE[i], "key.commbind.category");
+            keys[i].setKeyModifierAndCode(KeyModifier.values()[MODIFIERS[i]], BINDINGSTORAGE[i]);
             ClientRegistry.registerKeyBinding(keys[i]);
         }
         needsRestart=false;
@@ -41,7 +49,7 @@ public class KeyHandler {
         for(int i=0;i<ConfigValues.COMMANDS.length;++i){
             if(i < keys.length && i < keyTimer.length) {
                 if(keyTimer[i] <= 0 || flag)
-                if (keys[i].isPressed())
+                if (keys[i].isPressed() && (KeyModifier.values()[MODIFIERS[i]].equals(KeyModifier.NONE) || KeyModifier.values()[MODIFIERS[i]].isActive()))
                     if (!needsRestart)
                         command(ConfigValues.COMMANDS[i]);
                     else
@@ -63,13 +71,19 @@ public class KeyHandler {
 
     public void saveBindings(){
         int[] temp = CommBind.BINDINGS.getIntList();
+        int[] temp2 = CommBind.MODIFIERS.getIntList();
         while(temp.length<keys.length){
             temp = ArrayUtils.add(temp, Keyboard.KEY_NONE);
         }
+        while(temp2.length<keys.length){
+            temp2 = ArrayUtils.add(temp2, KeyModifier.NONE.ordinal());
+        }
         for(int i=0;i<keys.length;++i){
             temp[i]=keys[i].getKeyCode();
+            temp2[i]=keys[i].getKeyModifier().ordinal();
         }
         CommBind.BINDINGS.set(temp);
+        CommBind.MODIFIERS.set(temp2);
         CommBind.syncConfig();
     }
 }
