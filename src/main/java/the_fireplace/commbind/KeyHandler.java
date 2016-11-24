@@ -53,14 +53,14 @@ public class KeyHandler {
                     if (!needsRestart)
                         command(ConfigValues.COMMANDS[i]);
                     else
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentTranslation("commbind.restart"));
+                        Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("commbind.restart"));
             }
         }
     }
 
     public void command(String command){
         if(Minecraft.getMinecraft().inGameHasFocus) {
-            Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + command);
+            Minecraft.getMinecraft().player.sendChatMessage("/" + command);
             this.keyTimer[ArrayUtils.indexOf(ConfigValues.COMMANDS, command)] = 20;
         }
     }
