@@ -14,7 +14,6 @@ public class ClientEvents {
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
         if(eventArgs.getModID().equals(CommBind.MODID)) {
             CommBind.syncConfig();
-            CommBind.keyHandler.setNeedsRestart();
         }
     }
     @SubscribeEvent

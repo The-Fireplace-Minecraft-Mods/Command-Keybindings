@@ -30,6 +30,8 @@ public class CommBind {
         ConfigValues.MODIFIERS = MODIFIERS.getIntList();
         if(config.hasChanged())
             config.save();
+        if(keyHandler != null)
+            keyHandler.reload();
     }
 
     @Mod.EventHandler

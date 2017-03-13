@@ -28,15 +28,15 @@ allprojects {
     targetCompatibility = 1.8
 }
 
-version = "7.0.0"
+version = "7.0.1"
 group= "the_fireplace.commbind"
-archivesBaseName = "CommandKeybindings-Forge"
+archivesBaseName = "CommandKeybindings-Forge-1.11.2"
 
 minecraft {
-    version = "1.11-13.19.0.2153"
+    version = "1.11.2-13.20.0.2255"
     runDir = "run"
     replace '${version}', project.version
-    mappings = "snapshot_20161119"
+    mappings = "snapshot_20170308"
 }
 
 dependencies {
@@ -96,6 +96,7 @@ curseforge {
     id = '242907'
     changelog = file('changelog.txt')
     releaseType = 'release'
+    addGameVersion '1.11.2'
     addGameVersion '1.11'
 	addGameVersion 'Java 8'
     mainArtifact(jar) {
@@ -117,7 +118,7 @@ modsIO {
     project{
 		artifact = new File(jar.destinationDir, archivesBaseName+"-"+version+".jar")
 		modid = "1218"
-		minecraft = "1.10.2"
+		minecraft = "1.11.2"
 		try{changelog = file('changelog.txt').text}catch(Exception e){changelog=""}
 		tag = ""
 		current = true

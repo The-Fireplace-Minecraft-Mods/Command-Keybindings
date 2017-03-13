@@ -1,9 +1,11 @@
+image: openjdk:8-jdk
+
 variables:
   CACHE_DIR: "$CI_PROJECT_DIR/build"
   CACHE_DIR2: "$CI_PROJECT_DIR/.gradle"
   
-  ORIG_ARTIFACTS: "$CI_PROJECT_DIR/build/libs/CommandKeybindings-Forge-*.jar"
-  ARTIFACTS: "$CI_PROJECT_DIR/CommandKeybindings-Forge-*.jar"
+  ORIG_ARTIFACTS: "$CI_PROJECT_DIR/build/libs/CommandKeybindings-Forge-1.11.2-*.jar"
+  ARTIFACTS: "$CI_PROJECT_DIR/CommandKeybindings-Forge-1.11.2-*.jar"
 
 cache:
  paths:
@@ -19,10 +21,22 @@ deploy:
   stage: deploy
   script:
   - ./gradlew clean
+  - ./gradlew build curseforge uploadToModsIO -PcurseForgeApiKey=$curseForgeApiKey -PmodsioApiKey=$modsioApiKey
+  - cp $ORIG_ARTIFACTS .
+  when: manual
+  artifacts:
+    name: "CommandKeybindings-Forge-1.11.2-$(cat $CACHE_DIR/.version)"
+    paths:
+    - $ARTIFACTS
+    
+deployMaven:
+  stage: deploy
+  script:
+  - ./gradlew clean
   - ./gradlew build uploadArchives curseforge uploadToModsIO -PcurseForgeApiKey=$curseForgeApiKey -PmodsioApiKey=$modsioApiKey
   - cp $ORIG_ARTIFACTS .
   when: manual
   artifacts:
-    name: "CommandKeybindings-Forge-$(cat $CACHE_DIR/.version)"
+    name: "CommandKeybindings-Forge-1.11.2-$(cat $CACHE_DIR/.version)"
     paths:
     - $ARTIFACTS

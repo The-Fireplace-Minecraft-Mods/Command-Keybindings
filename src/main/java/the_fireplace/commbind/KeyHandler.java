@@ -3,7 +3,6 @@ package the_fireplace.commbind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -23,9 +22,8 @@ import static the_fireplace.commbind.config.ConfigValues.MODIFIERS;
 public class KeyHandler {
     private static final String desc = "key.comm";
     private KeyBinding[] keys;
-    private boolean needsRestart;
     byte[] keyTimer;
-    public boolean flag;
+    boolean isLoaded = false;
     public KeyHandler(){
         keys = new KeyBinding[ConfigValues.COMMANDS.length];
         keyTimer = new byte[keys.length];
@@ -40,20 +38,16 @@ public class KeyHandler {
             keys[i].setKeyModifierAndCode(KeyModifier.values()[MODIFIERS[i]], BINDINGSTORAGE[i]);
             ClientRegistry.registerKeyBinding(keys[i]);
         }
-        needsRestart=false;
-        flag=false;
+        isLoaded = true;
     }
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event){
         for(int i=0;i<ConfigValues.COMMANDS.length;++i){
             if(i < keys.length && i < keyTimer.length) {
-                if(keyTimer[i] <= 0 || flag)
+                if(keyTimer[i] <= 0)
                 if (keys[i].isPressed() && (KeyModifier.values()[MODIFIERS[i]].equals(KeyModifier.NONE) || KeyModifier.values()[MODIFIERS[i]].isActive()))
-                    if (!needsRestart)
-                        command(ConfigValues.COMMANDS[i]);
-                    else
-                        Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("commbind.restart"));
+                    command(ConfigValues.COMMANDS[i]);
             }
         }
     }
@@ -63,10 +57,6 @@ public class KeyHandler {
             Minecraft.getMinecraft().player.sendChatMessage("/" + command);
             this.keyTimer[ArrayUtils.indexOf(ConfigValues.COMMANDS, command)] = 20;
         }
-    }
-
-    public void setNeedsRestart(){
-        needsRestart=true;
     }
 
     public void saveBindings(){
@@ -85,5 +75,27 @@ public class KeyHandler {
         CommBind.BINDINGS.set(temp);
         CommBind.MODIFIERS.set(temp2);
         CommBind.syncConfig();
+    }
+
+    public void reload(){
+        if(isLoaded) {
+            for (int i = 0; i < keys.length; i++) {
+                Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.remove(Minecraft.getMinecraft().gameSettings.keyBindings, ArrayUtils.indexOf(Minecraft.getMinecraft().gameSettings.keyBindings, keys[i]));
+            }
+
+            keys = new KeyBinding[ConfigValues.COMMANDS.length];
+            keyTimer = new byte[keys.length];
+            for (int i = 0; i < ConfigValues.COMMANDS.length; ++i) {
+                while (BINDINGSTORAGE.length < ConfigValues.COMMANDS.length) {
+                    BINDINGSTORAGE = ArrayUtils.add(BINDINGSTORAGE, Keyboard.KEY_NONE);
+                }
+                while (MODIFIERS.length < ConfigValues.COMMANDS.length) {
+                    MODIFIERS = ArrayUtils.add(MODIFIERS, KeyModifier.NONE.ordinal());
+                }
+                keys[i] = new KeyBinding(I18n.format(desc, ConfigValues.COMMANDS[i]), BINDINGSTORAGE[i], "key.commbind.category");
+                keys[i].setKeyModifierAndCode(KeyModifier.values()[MODIFIERS[i]], BINDINGSTORAGE[i]);
+                ClientRegistry.registerKeyBinding(keys[i]);
+            }
+        }
     }
 }

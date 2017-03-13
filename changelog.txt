@@ -1,1 +1,2 @@
-Updated to 1.11
+Updated to 1.11.2
+You no longer need to restart the game after changing the commands in the config GUI.
