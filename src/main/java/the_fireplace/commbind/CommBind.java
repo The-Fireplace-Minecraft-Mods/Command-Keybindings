@@ -12,7 +12,7 @@ import the_fireplace.commbind.config.ConfigValues;
 /**
  * @author The_Fireplace
  */
-@Mod(modid=CommBind.MODID, name=CommBind.MODNAME, clientSideOnly=true, guiFactory="the_fireplace.commbind.config.CommBindGuiFactory", updateJSON = "http://thefireplace.bitnamiapp.com/jsons/commbind.json", acceptedMinecraftVersions = "[1.11,)")
+@Mod(modid=CommBind.MODID, name=CommBind.MODNAME, clientSideOnly=true, guiFactory="the_fireplace.commbind.config.CommBindGuiFactory", acceptedMinecraftVersions = "[1.12.2,)")
 public class CommBind {
     public static final String MODID="commandkeybindings";
     public static final String MODNAME="Command Keybindings";
