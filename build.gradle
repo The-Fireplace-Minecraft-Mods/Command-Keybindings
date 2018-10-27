@@ -28,15 +28,15 @@ allprojects {
     targetCompatibility = 1.8
 }
 
-version = "7.0.1"
+version = "7.0.2"
 group= "the_fireplace.commbind"
 archivesBaseName = "CommandKeybindings-1.12.2"
 
 minecraft {
-    version = "1.12.2-14.23.1.2555"
+    version = "1.12.2-14.23.5.2768"
     runDir = "run"
     replace '${version}', project.version
-    mappings = "snapshot_20170815"
+    mappings = "stable_39"
 	
 	clientRunArgs += "--uuid=0b1ec5ad-cb2a-43b7-995d-889320eb2e5b --username=The_Fireplace"
 }

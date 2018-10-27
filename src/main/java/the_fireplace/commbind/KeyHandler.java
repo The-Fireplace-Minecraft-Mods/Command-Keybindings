@@ -3,6 +3,7 @@ package the_fireplace.commbind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -23,7 +24,7 @@ public class KeyHandler {
     private static final String desc = "key.comm";
     private KeyBinding[] keys;
     byte[] keyTimer;
-    boolean isLoaded = false;
+    private boolean isLoaded;
     public KeyHandler(){
         keys = new KeyBinding[ConfigValues.COMMANDS.length];
         keyTimer = new byte[keys.length];
@@ -46,8 +47,8 @@ public class KeyHandler {
         for(int i=0;i<ConfigValues.COMMANDS.length;++i){
             if(i < keys.length && i < keyTimer.length) {
                 if(keyTimer[i] <= 0)
-                if (keys[i].isPressed() && (KeyModifier.values()[MODIFIERS[i]].equals(KeyModifier.NONE) || KeyModifier.values()[MODIFIERS[i]].isActive()))
-                    command(ConfigValues.COMMANDS[i]);
+                    if (keys[i].isPressed() && (KeyModifier.values()[MODIFIERS[i]].equals(KeyModifier.NONE) || KeyModifier.values()[MODIFIERS[i]].isActive(KeyConflictContext.IN_GAME)))
+                        command(ConfigValues.COMMANDS[i]);
             }
         }
     }
@@ -60,28 +61,27 @@ public class KeyHandler {
     }
 
     public void saveBindings(){
-        int[] temp = CommBind.BINDINGS.getIntList();
-        int[] temp2 = CommBind.MODIFIERS.getIntList();
-        while(temp.length<keys.length){
-            temp = ArrayUtils.add(temp, Keyboard.KEY_NONE);
-        }
-        while(temp2.length<keys.length){
-            temp2 = ArrayUtils.add(temp2, KeyModifier.NONE.ordinal());
-        }
+        int[] updatedBindings = CommBind.BINDINGS.getIntList();
+        int[] updatedModifiers = CommBind.MODIFIERS.getIntList();
+        //Create lists of bindings and modifiers set to none
+        while(updatedBindings.length<keys.length)
+            updatedBindings = ArrayUtils.add(updatedBindings, Keyboard.KEY_NONE);
+        while(updatedModifiers.length<keys.length)
+            updatedModifiers = ArrayUtils.add(updatedModifiers, KeyModifier.NONE.ordinal());
+        //Update all the bindings and modifiers
         for(int i=0;i<keys.length;++i){
-            temp[i]=keys[i].getKeyCode();
-            temp2[i]=keys[i].getKeyModifier().ordinal();
+            updatedBindings[i]=keys[i].getKeyCode();
+            updatedModifiers[i]=keys[i].getKeyModifier().ordinal();
         }
-        CommBind.BINDINGS.set(temp);
-        CommBind.MODIFIERS.set(temp2);
+        CommBind.BINDINGS.set(updatedBindings);
+        CommBind.MODIFIERS.set(updatedModifiers);
         CommBind.syncConfig();
     }
 
     public void reload(){
         if(isLoaded) {
-            for (int i = 0; i < keys.length; i++) {
-                Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.remove(Minecraft.getMinecraft().gameSettings.keyBindings, ArrayUtils.indexOf(Minecraft.getMinecraft().gameSettings.keyBindings, keys[i]));
-            }
+            for (KeyBinding key : keys)
+                Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.remove(Minecraft.getMinecraft().gameSettings.keyBindings, ArrayUtils.indexOf(Minecraft.getMinecraft().gameSettings.keyBindings, key));
 
             keys = new KeyBinding[ConfigValues.COMMANDS.length];
             keyTimer = new byte[keys.length];

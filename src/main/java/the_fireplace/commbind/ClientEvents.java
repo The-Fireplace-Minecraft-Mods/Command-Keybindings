@@ -12,9 +12,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class ClientEvents {
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if(eventArgs.getModID().equals(CommBind.MODID)) {
+        if(eventArgs.getModID().equals(CommBind.MODID))
             CommBind.syncConfig();
-        }
     }
     @SubscribeEvent
     public void guiScreenEvent(GuiScreenEvent event){
@@ -24,7 +23,7 @@ public class ClientEvents {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event){
         for(int i=0;i<CommBind.keyHandler.keyTimer.length;i++)
-        if(CommBind.keyHandler.keyTimer[i] > 0)
-            CommBind.keyHandler.keyTimer[i]--;
+            if(CommBind.keyHandler.keyTimer[i] > 0)
+                CommBind.keyHandler.keyTimer[i]--;
     }
 }
