@@ -56,7 +56,7 @@ public class KeyHandler {
     public void command(String command){
         if(Minecraft.getMinecraft().inGameHasFocus) {
             Minecraft.getMinecraft().player.sendChatMessage("/" + command);
-            this.keyTimer[ArrayUtils.indexOf(ConfigValues.COMMANDS, command)] = 20;
+            this.keyTimer[ArrayUtils.indexOf(ConfigValues.COMMANDS, command)] = (byte)ConfigValues.COOLDOWN;
         }
     }
 

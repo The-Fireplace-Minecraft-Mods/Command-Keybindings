@@ -8,9 +8,7 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import the_fireplace.commbind.CommBind;
 
 /**
- *
  * @author The_Fireplace
- *
  */
 public class CommBindConfigGui extends GuiConfig {
 
