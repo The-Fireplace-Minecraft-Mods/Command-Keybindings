@@ -16,7 +16,7 @@ public class ClientEvents {
             CommBind.syncConfig();
     }
     @SubscribeEvent
-    public void guiScreenEvent(GuiScreenEvent event){
+    public void guiScreenEvent(GuiScreenEvent.InitGuiEvent.Post event){
         if(event.getGui() instanceof GuiOptions)
             CommBind.keyHandler.saveBindings();
     }
