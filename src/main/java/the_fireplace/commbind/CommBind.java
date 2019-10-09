@@ -25,7 +25,7 @@ public class CommBind {
     public static Property MODIFIERS;
     public static Property COOLDOWN;
 
-    public static void syncConfig(){
+    public static void syncConfig() {
         ConfigValues.COMMANDS = COMMANDS.getStringList();
         ConfigValues.BINDINGSTORAGE = BINDINGS.getIntList();
         ConfigValues.MODIFIERS = MODIFIERS.getIntList();
