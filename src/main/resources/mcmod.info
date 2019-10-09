@@ -2,13 +2,13 @@
 {
   "modid": "commandkeybindings",
   "name": "Command Keybindings",
-  "description": "Allows you to bind commands to keys",
+  "description": "Allows you to bind commands to keys.",
   "version": "${version}",
   "mcversion": "",
-  "url": "http://mods.curse.com/mc-mods/minecraft/242907-command-keybindings",
-  "updateUrl": "http://mods.curse.com/mc-mods/minecraft/242907-command-keybindings",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/command-keybindings",
+  "updateUrl": "https://www.curseforge.com/minecraft/mc-mods/command-keybindings",
   "authorList": ["The_Fireplace"],
-  "credits": "The_Fireplace for authoring",
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
