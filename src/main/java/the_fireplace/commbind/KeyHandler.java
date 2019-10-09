@@ -28,13 +28,13 @@ public class KeyHandler {
     public KeyHandler(){
         keys = new KeyBinding[ConfigValues.COMMANDS.length];
         keyTimer = new byte[keys.length];
+        while(BINDINGSTORAGE.length<ConfigValues.COMMANDS.length){
+            BINDINGSTORAGE = ArrayUtils.add(BINDINGSTORAGE, Keyboard.KEY_NONE);
+        }
+        while(MODIFIERS.length<ConfigValues.COMMANDS.length){
+            MODIFIERS = ArrayUtils.add(MODIFIERS, KeyModifier.NONE.ordinal());
+        }
         for(int i = 0; i < ConfigValues.COMMANDS.length; ++i){
-            while(BINDINGSTORAGE.length<ConfigValues.COMMANDS.length){
-                BINDINGSTORAGE = ArrayUtils.add(BINDINGSTORAGE, Keyboard.KEY_NONE);
-            }
-            while(MODIFIERS.length<ConfigValues.COMMANDS.length){
-                MODIFIERS = ArrayUtils.add(MODIFIERS, KeyModifier.NONE.ordinal());
-            }
             keys[i] = new KeyBinding(I18n.format(desc, ConfigValues.COMMANDS[i]), BINDINGSTORAGE[i], "key.commbind.category");
             keys[i].setKeyModifierAndCode(KeyModifier.values()[MODIFIERS[i]], BINDINGSTORAGE[i]);
             ClientRegistry.registerKeyBinding(keys[i]);
@@ -60,6 +60,9 @@ public class KeyHandler {
         }
     }
 
+    /**
+     * Writes all the key bindings to the config
+     */
     public void saveBindings(){
         int[] updatedBindings = CommBind.BINDINGS.getIntList();
         int[] updatedModifiers = CommBind.MODIFIERS.getIntList();
@@ -85,13 +88,13 @@ public class KeyHandler {
 
             keys = new KeyBinding[ConfigValues.COMMANDS.length];
             keyTimer = new byte[keys.length];
+            while (BINDINGSTORAGE.length < ConfigValues.COMMANDS.length) {
+                BINDINGSTORAGE = ArrayUtils.add(BINDINGSTORAGE, Keyboard.KEY_NONE);
+            }
+            while (MODIFIERS.length < ConfigValues.COMMANDS.length) {
+                MODIFIERS = ArrayUtils.add(MODIFIERS, KeyModifier.NONE.ordinal());
+            }
             for (int i = 0; i < ConfigValues.COMMANDS.length; ++i) {
-                while (BINDINGSTORAGE.length < ConfigValues.COMMANDS.length) {
-                    BINDINGSTORAGE = ArrayUtils.add(BINDINGSTORAGE, Keyboard.KEY_NONE);
-                }
-                while (MODIFIERS.length < ConfigValues.COMMANDS.length) {
-                    MODIFIERS = ArrayUtils.add(MODIFIERS, KeyModifier.NONE.ordinal());
-                }
                 keys[i] = new KeyBinding(I18n.format(desc, ConfigValues.COMMANDS[i]), BINDINGSTORAGE[i], "key.commbind.category");
                 keys[i].setKeyModifierAndCode(KeyModifier.values()[MODIFIERS[i]], BINDINGSTORAGE[i]);
                 ClientRegistry.registerKeyBinding(keys[i]);
